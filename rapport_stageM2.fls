@@ -15,10 +15,15 @@ INPUT ./rapport_stageM2.aux
 INPUT ./rapport_stageM2.aux
 INPUT rapport_stageM2.aux
 OUTPUT rapport_stageM2.aux
-INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
-INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
+INPUT ./cover.tex
+INPUT ./cover.tex
+INPUT cover.tex
+INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr17.tfm
 OUTPUT rapport_stageM2.pdf
 INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map
+INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmr12.tfm
+INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/tfm/public/cm/cmbx12.tfm
 INPUT rapport_stageM2.aux
 INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb
 INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb
+INPUT c:/Users/gabri/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb

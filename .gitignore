@@ -3,4 +3,4 @@
 *.gz
 *.log
 *.fls
-*.latexmk
+*.fdb_latexmk
