@@ -1,4 +1,58 @@
+% LTeX: language=fr
 \section{Méthodologie}
+
+\subsection{Équation du transfert radiatif}
+
+Un rayonnement peut être défini par sa luminance spectrale 
+$L_\lambda$. C'est une grandeur locale et directionnelle : elle 
+correspond à l'énergie par unité d'aire, de temps d'angle solide et
+de fréquence qui traverse une surface perpendiculaire au faisceau du 
+rayonnement, elle s'exprime en $W.m^{-2}.sr^{-1}$.
+La luminance évolue dans toute la hauteur de l'atmosphère. Une partie du 
+rayonnement peut être absorbée ou diffusée dans d'autres directions, ce 
+qui représente une perte de luminance. À l'inverse, l'atmosphère
+peut émettre du rayonnement (dans l'infrarouge thermique) et du rayonnement
+peut être déviée par diffusion dans la direction d'intérêt. Cela représente 
+un gain de luminance.
+
+La variation de luminance $dL_\lambda$ à une longueur d'onde donnée
+en se déplaçant d'une distance infinitésimale $dr$ s'écrit :
+\begin{equation}
+    dL_\lambda = -\sigma_{abs}L_\lambda dr
+    -\sigma_{diff}L_\lambda dr 
+    +\sigma_{em}B_\lambda(T)
+    +\frac{\sigma_{diff}}{4\pi}\int_\Omega L_\lambda (r,s') P(\widehat{ss'} ,\lambda) d\Omega dr
+\end{equation}
+
+Avec $\sigma_{abs},\sigma_{diff},\sigma_{em}$ les coefficients d'absorption,
+de diffusion et d'émission respectivement qui dépendent de la longueur d'onde,
+$B_\lambda(T)$ l'émission corps noir, $P(\widehat{ss'},\lambda)$ la fonction de phase qui représente 
+la part du rayonnement à une longueur d'onde $\lambda$ provenant d'une direction
+$s'$ qui est déviée dans la direction $s$.
+
+On définit à partir de cette équation le coefficient d'extinction $\sigma_{ext}=
+\sigma_{abs}+\sigma_{diff}$ et l'albédo de simple diffusion $\omega = 
+\frac{\sigma_{diff}}{\sigma_{ext}}$. En pratique, on utilisera plutôt 
+l'efficacité d'extinction massique $Q_{ext_m} = \sigma_{ext}/m $. On utilisera
+aussi le facteur d'asymétrie $g= \overline{\cos\theta}$ qui caractérise la 
+direction (avant ou arrière) privilégiée de diffusion, $\theta$ étant l'angle 
+du rayonnement.
+
+Par la suite, définira ces trois grandeurs (efficacité d'extinction, albédo
+de simple diffusion et facteur d'asymétrie) comme propriétés de simple diffusion
+(SSP - Single Scattering Properties)
+
+
+
+
 \subsection{Base de donnée TAMUice2016}
 
-\cite{yang_spectrally_2013}
+La base de donnée TAMUice2016, produite par les travaux de 
+\cite{yang_spectrally_2013} et \cite{bi_improved_2017},
+fournit les SSP de particules de glace pour différentes formes
+sur une large game de taille de particule et de longueur d'onde. Ces propriétés 
+optiques sont dérivées directement à partir des équations de propagation des 
+ondes électromagnétiques. 
+
+
+

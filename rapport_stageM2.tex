@@ -1,3 +1,5 @@
+% LTeX: language=fr
+
 \documentclass[12pt]{article}
 
 \usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
@@ -6,6 +8,10 @@
 \onehalfspacing
 
 \usepackage{natbib}
+\bibliographystyle{unsrtnat}
+
+\usepackage[french]{babel} 
+\usepackage[T1]{fontenc}
 
 
 \begin{document}
@@ -20,5 +26,8 @@
 \input{3_Discussion.tex}
 \input{4_Conclusion_et_perspectives.tex}
 \input{5_conclu_perso.tex}
+
+\newpage
+\bibliography{biblio.bib}
 
 \end{document}
