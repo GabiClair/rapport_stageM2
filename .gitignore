@@ -1,7 +1,3 @@
-*.pdf
-*.aux
-*.gz
-*.log
-*.fls
-*.fdb_latexmk
-*.xml
+*
+!*.tex
+!*.bib
