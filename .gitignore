@@ -1,3 +1,5 @@
 *
 !*.tex
 !*.bib
+*.fls
+*.fdb_latexmk
