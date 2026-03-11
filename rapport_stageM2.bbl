@@ -1,4 +1,4 @@
-\begin{thebibliography}{9}
+\begin{thebibliography}{10}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -79,5 +79,13 @@ Lei Bi and Ping Yang.
 \newblock ISSN 0022-4073.
 \newblock \doi{10.1016/j.jqsrt.2016.12.007}.
 \newblock URL \url{https://www.sciencedirect.com/science/article/pii/S002240731630749X}.
+
+\bibitem[Warren and Brandt(2008)]{warren_optical_2008}
+Stephen~G. Warren and Richard~E. Brandt.
+\newblock Optical constants of ice from the ultraviolet to the microwave: {A} revised compilation.
+\newblock \emph{Journal of Geophysical Research: Atmospheres}, 113\penalty0 (D14):\penalty0 2007JD009744, July 2008.
+\newblock ISSN 0148-0227.
+\newblock \doi{10.1029/2007JD009744}.
+\newblock URL \url{https://agupubs.onlinelibrary.wiley.com/doi/10.1029/2007JD009744}.
 
 \end{thebibliography}

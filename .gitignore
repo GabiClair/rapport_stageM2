@@ -1,5 +1,6 @@
 *
 !*.tex
 !*.bib
-*.fls
-*.fdb_latexmk
+rapport_stageM2.fls
+rapport_stageM2.fdb_latexmk
+rapport_stageM2.toc

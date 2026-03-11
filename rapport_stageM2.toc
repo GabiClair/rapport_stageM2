@@ -3,7 +3,8 @@
 \contentsline {subsection}{\numberline {1.1}Équation du transfert radiatif}{3}{}%
 \contentsline {subsection}{\numberline {1.2}Code de transfert radiatif ecRad}{3}{}%
 \contentsline {subsection}{\numberline {1.3}Base de donnée TAMUice2016}{4}{}%
-\contentsline {section}{\numberline {2}Résultats}{5}{}%
-\contentsline {section}{\numberline {3}Discussion }{6}{}%
-\contentsline {section}{\numberline {4}Conclusion et perspectives}{7}{}%
-\contentsline {section}{\numberline {5}Conclusion personnelle}{8}{}%
+\contentsline {subsection}{\numberline {1.4}Intégration des SSP}{5}{}%
+\contentsline {section}{\numberline {2}Résultats}{6}{}%
+\contentsline {section}{\numberline {3}Discussion }{7}{}%
+\contentsline {section}{\numberline {4}Conclusion et perspectives}{8}{}%
+\contentsline {section}{\numberline {5}Conclusion personnelle}{9}{}%
