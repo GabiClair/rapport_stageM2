@@ -3,17 +3,7 @@
 
 \subsection{Équation du transfert radiatif}
 
-Un rayonnement peut être défini par sa luminance spectrale 
-$L_\lambda$. C'est une grandeur locale et directionnelle : elle 
-correspond à l'énergie par unité d'aire, de temps d'angle solide et
-de fréquence qui traverse une surface perpendiculaire au faisceau du 
-rayonnement, elle s'exprime en $W.m^{-2}.sr^{-1}$.
-La luminance évolue dans toute la hauteur de l'atmosphère. Une partie du 
-rayonnement peut être absorbée ou diffusée dans d'autres directions, ce 
-qui représente une perte de luminance. À l'inverse, l'atmosphère
-peut émettre du rayonnement (dans l'infrarouge thermique) et du rayonnement
-peut être déviée par diffusion dans la direction d'intérêt. Cela représente 
-un gain de luminance.
+Un rayonnement peut être défini par sa luminance spectrale $L_\lambda$. C'est une grandeur locale et directionnelle : elle correspond à l'énergie par unité d'aire, de temps d'angle solide etde fréquence qui traverse une surface perpendiculaire au faisceau du rayonnement, elle s'exprime en $W.m^{-2}.sr^{-1}$. La luminance évolue dans toute la hauteur de l'atmosphère. Une partie du rayonnement peut être absorbée ou diffusée dans d'autres directions, ce qui représente une perte de luminance. À l'inverse, l'atmosphère peut émettre du rayonnement (dans l'infrarouge thermique) et du rayonnement peut être déviée par diffusion dans la direction d'intérêt. Cela représente un gain de luminance.
 
 La variation de luminance $dL_\lambda$ à une longueur d'onde donnée
 en se déplaçant d'une distance infinitésimale $dr$ s'écrit :
@@ -25,34 +15,33 @@ en se déplaçant d'une distance infinitésimale $dr$ s'écrit :
 \end{equation}
 
 Avec $\sigma_{abs},\sigma_{diff},\sigma_{em}$ les coefficients d'absorption,
-de diffusion et d'émission respectivement qui dépendent de la longueur d'onde,
-$B_\lambda(T)$ l'émission corps noir, $P(\widehat{ss'},\lambda)$ la fonction de phase qui représente 
-la part du rayonnement à une longueur d'onde $\lambda$ provenant d'une direction
-$s'$ qui est déviée dans la direction $s$.
+de diffusion et d'émission respectivement qui dépendent de la longueur d'onde, $B_\lambda(T)$ l'émission corps noir, $P(\widehat{ss'},\lambda)$ la fonction de phase qui représente la part du rayonnement à une longueur d'onde $\lambda$ provenant d'une direction $s'$ qui est déviée dans la direction $s$.
 
-On définit à partir de cette équation le coefficient d'extinction $\sigma_{ext}=
-\sigma_{abs}+\sigma_{diff}$ et l'albédo de simple diffusion $\omega = 
-\frac{\sigma_{diff}}{\sigma_{ext}}$. En pratique, on utilisera plutôt 
-l'efficacité d'extinction massique $Q_{ext_m} = \sigma_{ext}/m $. On utilisera
-aussi le facteur d'asymétrie $g= \overline{\cos\theta}$ qui caractérise la 
-direction (avant ou arrière) privilégiée de diffusion, $\theta$ étant l'angle 
-du rayonnement.
+On définit à partir de cette équation le coefficient d'extinction $\sigma_{ext}= \sigma_{abs}+\sigma_{diff}$ et l'albédo de simple diffusion $\omega = \frac{\sigma_{diff}}{\sigma_{ext}}$. En pratique, on utilisera plutôt l'efficacité d'extinction massique $Q_{ext_m} = \sigma_{ext}/m $. On utilisera aussi le facteur d'asymétrie $g= \overline{\cos\theta}$ qui caractérise la direction (avant ou arrière) privilégiée de diffusion, $\theta$ étant l'angle du rayonnement.
 
-Par la suite, définira ces trois grandeurs (efficacité d'extinction, albédo
-de simple diffusion et facteur d'asymétrie) comme propriétés de simple diffusion
-(SSP - Single Scattering Properties)
+Par la suite, définira ces trois grandeurs (efficacité d'extinction, albédo de simple diffusion et facteur d'asymétrie) comme propriétés de simple diffusion (SSP - Single Scattering Properties)
+
+\subsection{Code de transfert radiatif ecRad}
+
+Le code de transfert radiatif ecRad \citep{hogan_flexible_2018} permet de calculer les profils de radiation SW \footnote{Short Wave : rayonnement émis par le Soleil} et LW\footnote{Long Wave : rayonnement de la surface et de l'atmosphère par émission corps noir} du sommet de l'atmosphère à la surface à partir de profil de propriétés physiques et thermodynamiques. Il a été développé pour le modèle de prévision numérique du temps du centre européen (ECMWF) et y est utilisé de manière opérationnelle. 
+
+Le calcul de profils de flux radiatifs est séparé en 5 composantes : calculs de propriétés optiques de la surface, des gaz, des aérosols et des nuages puis résolution du transfert radiatif. La partie qui nous intéresse dans cette étude est le calcul des propriétés optiques des nuages. La configuration par défaut d'ecRad prends en compte deux types de nuages : les nuages d'eau liquide et les nuages de glace. Les propriétés optiques des nuages de glaces peuvent être paramétrisées de différentes manières. 
+\begin{itemize}
+    \item \textsc{Fu} \citep{fu_accurate_1996,fu_accurate_1998} \\
+    Les propriétés optiques sont calculées en combinant linéairement la théorie de Mie, l'Anomalous Diffraction Theory (ADT) et la Geometric Optics Method (GOM) pour des cristaux hexagonaux d'orientation aléatoire pour une large gamme de taille de particule. Ces SSP sont ensuite intégrées sur des distributions en tailles observées \emph{in situ} et fités de manière à exprimer chaque SSP comme un polynôme qui dépend du rayon effectif et du contenu en glace. 
+    \item \textsc{Yi} \citep{yi_influence_2013} \\
+    Cette paramétrisation s'appuie sur la base de donné TAMUice2013 \citep{yang_spectrally_2013}, qui fournit les SSP pour 9 formes de cristaux sur une large gamme de taille et de longeur d'onde. Elle sera décrite plus en détail dans la partie \ref{ss_bdd}. Les propriétés optiques du nuage sont paramétrisées en fonction du rayon effectif des particules et du contenu en glace pour une combinaison de formes de cristaux et une distribution de taille de particules définie par \cite{baum_improvements_2011}. 
+    \item \textsc{Baran} \citep{baran_coupled_2014, baran_impact_2016} \\
+    Cette dernière paramétrisation est basée sur des observations \emph{in situ}. Elle commence par relier une forme de PSD \footnote{PSD : Particles Size Distribution} à la température et au contenu en glace. En faisant des hypothèses sur la forme des cristaux selon leur taille, on arrive à déterminer les propriétés optiques du nuage total. 
+\end{itemize}
 
 
 
 
 \subsection{Base de donnée TAMUice2016}
+\label{ss_bdd}
 
-La base de donnée TAMUice2016, produite par les travaux de 
-\cite{yang_spectrally_2013} et \cite{bi_improved_2017},
-fournit les SSP de particules de glace pour différentes formes
-sur une large game de taille de particule et de longueur d'onde. Ces propriétés 
-optiques sont dérivées directement à partir des équations de propagation des 
-ondes électromagnétiques. 
+La base de donnée TAMUice2016, produite par les travaux de \cite{yang_spectrally_2013} et \cite{bi_improved_2017},fournit les SSP de particules de glace pour différentes formes sur une large game de taille de particule et de longueur d'onde. Ces propriétés optiques sont dérivées directement à partir des équations de propagation des ondes électromagnétiques. 
 
 
 
