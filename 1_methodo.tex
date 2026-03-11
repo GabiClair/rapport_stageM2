@@ -45,10 +45,62 @@ La base de donnée TAMUice2016 (version améliorée de TAMUice2013 cité en part
 rosettes creuses, plaquettes et agrégats de 5 et 10 plaquettes} sur une large game de taille de particule (2 à 1000 $\mu m$) et de longueur d'onde (0.2 à 99 $\mu m$). Ces propriétés optiques sont calculée à partir des équations de propagation des ondes électromagnétiques dans la glace pour les petites particules et les lois d'optique géométrique pour les plus grosses, en utilisant les méthodes Invariant Imbedding T-matrix (II-TM) et Improved Geometrics Optics Method (IGOM). Ces calculs sont réalisés avec les indices de réfractions réels et imaginaire présentés par \cite{warren_optical_2008}.
 
 
-\subsection{Intégration des SSP}
+\subsection{Calcul des propriétés optiques d'un nuage}
+%%% à mettre en partie en annexe au besoin
 
+La base de données TAMUice2016 donne les SSP pour une taille précise et une longueur d'onde précise. En réalité, les cristaux de glace dans les nuages ne sont pas tous de la même taille et le rayonnement n'est pas monochromatique, il est représenté par bande spectrale dans ecRad. Il faut donc déterminer les propriétés optiques du nuage en sommant les SSP sur la distribution de taille est sur chaque bande spectrale. En pratique, les deux données d'entrée d'ecRad pour déterminer les propriétés optiques d'un nuage de glace sont le rayon effectif de particules et le contenu en glace du nuage (IWC : Ice Water Content). L'objectif de cette partie est donc d'exprimer les propriétés optiques intégrées en fonction de ces deux variables.
 
+On définit le rayon effectif $\re$ comme : 
+\begin{equation}
+    \re = \frac{3}{4}\frac{\int V(D)n(D)dD}{\int A(D)n(D)dD}
+\end{equation}
+Avec $D$ la dimension maximale de la particule, $V$ son volume, $A$ sa surface projetée et $n$ la distribution en taille des particules (PSD).
 
+\subsubsection{Définition de la PSD}
 
+On fait l'hypothèse que la PSD est une distribution gamma généralisée de paramètres $\lambda$, $\nu$ et $\alpha$, avec $N$ le nombre total de cristaux :
+\begin{equation}
+    n(D;\lambda, \nu,\alpha) = \frac{N \alpha (\lambda D)^{\alpha \nu}D^{-1}e^{-(\lambda D)^\alpha}}{ \Gamma(\nu)}
+\end{equation}
+
+La PSD normalisée s'écrit
+\begin{equation}
+p(D;\lambda, \nu,\alpha) = \frac{n(D;\lambda, \nu,\alpha)}{N} = \frac{ \alpha (\lambda D)^{\alpha \nu}D^{-1}e^{-(\lambda D)^\alpha}}{ \Gamma(\nu)}
+\end{equation}
+
+On fait aussi l'hypothèse qu'il existe des relations masse-diamètre et surface-diamètre telles que : 
+\begin{equation}
+    m(D) = aD^b 
+\end{equation}
+\begin{equation}
+    A(D) = \gamma D^\delta
+\end{equation}
+\begin{equation}
+    V(D) = \frac{m(D)}{\rho_{ice}}
+\end{equation}
+
+Le moment d'ordre k d'une distribution Gamma généralisée normalisée s'écrit :
+\begin{equation}
+M_k = \int p(D) D^k dD = \frac{1}{\lambda^k} \frac{\Gamma(\nu + \frac{k}{\alpha})}{\Gamma(\nu)}
+\end{equation}
+
+On peut en déduire l'expression du volume et de la surface intégrée : 
+
+\begin{equation}
+    \int V(D)n(D)dD = \frac{N a}{\rho_{ice}}\int p(D) D^b dD = \\
+    \frac{N a}{\rho_{ice}} M_b =\\
+    \frac{N a}{\rho_{ice}} \frac{1}{\lambda^b} \frac{\Gamma(\nu + \frac{b}{\alpha})}{\Gamma(\nu)}
+\end{equation}
+\begin{equation}
+    \int A(D)n(D)dD = N \gamma \int p(D) D^\delta dD =  N \gamma M_\delta = N \gamma \frac{1}{\lambda^\delta} \frac{\Gamma(\nu + \frac{\delta}{\alpha})}{\Gamma(\nu)}
+\end{equation}
+
+D'où l'expression du rayon effectif : 
+\begin{equation}
+    \re = \frac{3}{4} \frac{a}{\rho_{ice}\gamma}\lambda^{\delta-b} \frac{\Gamma(\nu + b/\alpha)}{\Gamma(\nu + \delta/\alpha)}
+\end{equation}
+Cette expression nous permet de connaitre explicitement la PSD si on connait $\re$, $\alpha$ et $\nu$
+
+\subsubsection{Intégration des SSP}
 
 
