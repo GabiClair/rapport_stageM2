@@ -35,6 +35,7 @@ Le calcul de profils de flux radiatifs est séparé en 5 composantes : calculs d
     Cette dernière paramétrisation est basée sur des observations \emph{in situ}. Elle commence par relier une forme de PSD \footnote{PSD : Particles Size Distribution} à la température et au contenu en glace. En faisant des hypothèses sur la forme des cristaux selon leur taille, on arrive à déterminer les propriétés optiques du nuage total. 
 \end{itemize}
 
+Ces trois paramétrisations permettent de déterminer \emph{in fine} trois grandeurs : l'épaisseur optique, l'épaisseur optique de diffusion et le facteur d'asymétrie.
 
 
 
@@ -78,6 +79,7 @@ On fait aussi l'hypothèse qu'il existe des relations masse-diamètre et surface
 \begin{equation}
     V(D) = \frac{m(D)}{\rho_{ice}}
 \end{equation}
+Les coefficient de ces relations peuvent être retrouvés grâce à la base de donnée TAMUice2016.
 
 Le moment d'ordre k d'une distribution Gamma généralisée normalisée s'écrit :
 \begin{equation}
@@ -99,8 +101,67 @@ D'où l'expression du rayon effectif :
 \begin{equation}
     \re = \frac{3}{4} \frac{a}{\rho_{ice}\gamma}\lambda^{\delta-b} \frac{\Gamma(\nu + b/\alpha)}{\Gamma(\nu + \delta/\alpha)}
 \end{equation}
-Cette expression nous permet de connaitre explicitement la PSD si on connait $\re$, $\alpha$ et $\nu$
+
+
+\begin{figure}
+    \begin{center}
+        \includegraphics[width=0.7\linewidth]{fig/PSD_reff_35.0um.png}
+        \caption[PSD pour différentes formes de cristaux et paramètres]{
+            \textbf{PSD pour différentes formes de cristaux et paramètres} 
+            
+            A rayon effectif constant, la forme de la distribution dépend fortement de la forme des particules
+        }
+        \label{fig:PSD}
+    \end{center}
+\end{figure}
+
+On peut isoler $\lambda$ dans cette expression et ainsi connaitre explicitement la PSD si on connait $\re$, $\alpha$ et $\nu$. On remarquera que le paramètre $\lambda$ de la PSD dépend de la forme des cristaux, ce qui implique que la PSD elle-même dépend de la forme des cristaux \figp{fig:PSD}. 
 
 \subsubsection{Intégration des SSP}
 
+Connaissant désormais la distribution en taille des cristaux en fonction de leur rayon effectif, on peut déterminer les propriétés optiques intégrées sur cette PSD et sur le spectre de longueur d'onde. On a besoin pour l'implémentation dans ecRad de calculer le coefficient d'extinction massique $Q_{extm}$, l'albedo de simple diffusion $\omega$ et le facteur d'assymétrie $g$. De la même manière que \cite{yi_influence_2013}, on intègre les coefficients de TAMUice2016 d'abord sur la PSD puis sur le spectre (solaire en SW, corps noir à 233K en LW).
 
+Pour la suite, on notera $Q_{ext}$, $Q_{abs}=(1-\omega) Q_{ext}$ et $Q_{scat}= \omega Q_{ext}$ respectivement les efficacités d'extinction, d'absorption et de diffusion (sans unité).
+
+\newcommand{\Qe}{Q_{ext}}
+\newcommand{\Qem}{Q_{extm}}
+\newcommand{\Qa}{Q_{abs}}
+\newcommand{\Qs}{Q_{scat}}
+
+
+\paragraph{Intégration sur la PSD}
+
+
+\begin{equation}
+    \Qe (\overline{D},\lambda ) = \frac{\int \Qe(D, \lambda) A(D) n(D) dD}{\int A(D) n(D) dD}
+\end{equation}
+\begin{equation}
+    \Qem (\overline{D},\lambda ) = \frac{\int \Qe(D, \lambda) A(D) n(D) dD}{\int \rho_{ice}V(D) n(D) dD}
+\end{equation}
+\begin{equation}
+    \omega(\overline{D},\lambda ) =\frac{\int \Qs(D, \lambda) A(D) n(D) dD}{\int \Qe (D, \lambda)A(D) n(D) dD}
+\end{equation}
+\begin{equation}
+    g(\overline{D},\lambda ) =\frac{\int \Qs(D, \lambda) g(D, \lambda) A(D) n(D) dD}{\int \Qs (D, \lambda)A(D) n(D) dD}
+\end{equation}
+
+\paragraph{Intégration sur les longueurs d'onde}
+
+\begin{equation}
+    \Qem (\overline{D},\overline{\lambda} ) = 
+    \frac{\int \Qem(\overline{D}, \lambda) S(\lambda) d\lambda}
+    {\int  S(\lambda) d\lambda}
+\end{equation}
+\begin{equation}
+    \omega(\overline{D},\overline{\lambda}) = 
+    \frac{\int \omega (\overline{D},\lambda) \Qe(\overline{D}, \lambda) S(\lambda) d\lambda}
+    {\int \Qe (\overline{D}, \lambda) S (\lambda) d \lambda }
+\end{equation}
+\begin{equation}
+    g (\overline{D},\overline{\lambda}) = 
+    \frac{\int g(\overline{D},\lambda) \Qe(\overline{D}, \lambda)  \omega (\overline{D},\lambda) S(\lambda) d\lambda}
+    {\int \Qe (\overline{D}, \lambda) \omega (\overline{D},\lambda) S (\lambda) d \lambda }
+\end{equation}
+Avec $S(\lambda)$ l'émission solaire en SW ou l'émission corps noir à 233K en LW. Cette valeur est aussi utilisée par les paramétrisations de \cite{fu_accurate_1996} et \cite{yi_influence_2013} qui ont montré que la sensibilité des SSP au choix de la température d'émission de la Terre est négligeable.
+
+\subsection{Implémentation dans ecRad}
