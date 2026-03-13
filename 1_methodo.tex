@@ -165,3 +165,5 @@ Pour la suite, on notera $Q_{ext}$, $Q_{abs}=(1-\omega) Q_{ext}$ et $Q_{scat}= \
 Avec $S(\lambda)$ l'émission solaire en SW ou l'émission corps noir à 233K en LW. Cette valeur est aussi utilisée par les paramétrisations de \cite{fu_accurate_1996} et \cite{yi_influence_2013} qui ont montré que la sensibilité des SSP au choix de la température d'émission de la Terre est négligeable.
 
 \subsection{Implémentation dans ecRad}
+
+Les parties précédentes permettent de retrouver les propriétés d'un nuage à partir du rayon effectif des cristaux qui le composent. Les SSP sont calculées pour 23 rayons effectifs entre 5 et 60 µm et stockées dans un fichier netcdf distinct pour chaque forme et rugosité du cristal et chaque forme de PSD. On spécifie dans la namelist de configuration d'ecRad quel fichier de données de propriété optique utiliser. Le code de transfert radiatif fait ensuite une interpolation linéaire pour retrouver les propriétés optiques du nuage.
