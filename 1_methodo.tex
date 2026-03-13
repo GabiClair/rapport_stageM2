@@ -167,3 +167,7 @@ Avec $S(\lambda)$ l'émission solaire en SW ou l'émission corps noir à 233K en
 \subsection{Implémentation dans ecRad}
 
 Les parties précédentes permettent de retrouver les propriétés d'un nuage à partir du rayon effectif des cristaux qui le composent. Les SSP sont calculées pour 23 rayons effectifs entre 5 et 60 µm et stockées dans un fichier netcdf distinct pour chaque forme et rugosité du cristal et chaque forme de PSD. On spécifie dans la namelist de configuration d'ecRad quel fichier de données de propriété optique utiliser. Le code de transfert radiatif fait ensuite une interpolation linéaire pour retrouver les propriétés optiques du nuage.
+
+\section{Simulation cirrus idéalisé}
+
+Afin de valider techniquement et scientifiquement l'implémentation de cette nouvelle paramétrisation, une simulation \emph{offline} a été réalisé.
